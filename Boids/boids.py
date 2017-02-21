@@ -6,15 +6,11 @@ import random
 
 class Boids(object):
     def __init__(self):
-        axes = plt.axes(xlim=(-500, 1500), ylim=(-500, 1500))
         boids_x = [random.uniform(-450, 50.0) for x in range(50)]
         boids_y = [random.uniform(300.0, 600.0) for x in range(50)]
         boid_x_velocities = [random.uniform(0, 10.0) for x in range(50)]
         boid_y_velocities = [random.uniform(-20.0, 20.0) for x in range(50)]
         self.boids = (boids_x, boids_y, boid_x_velocities, boid_y_velocities)
-        self.scatter = axes.scatter(self.boids[0], self.boids[1])
-
-
 
     def update_boids(self, boids):
         xs, ys, xvs, yvs = boids
@@ -42,18 +38,19 @@ class Boids(object):
             xs[i] = xs[i] + xvs[i]
             ys[i] = ys[i] + yvs[i]
 
-
     def simulate(self):
         figure = plt.figure()
+        axes = plt.axes(xlim=(-500, 1500), ylim=(-500, 1500))
+        self.scatter = axes.scatter(self.boids[0], self.boids[1])
         anim = animation.FuncAnimation(figure, self.animate, frames=50, interval=50)
+        plt.show()
+
 
     def animate(self, frame):
         self.update_boids(self.boids)
         self.scatter.set_offsets(list(zip(self.boids[0], self.boids[1])))
 
+
 if __name__ == "__main__":
     boid = Boids()
-    boid.simulate
-    plt.show()
-
-
+    boid.simulate()
