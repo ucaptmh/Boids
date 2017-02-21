@@ -45,7 +45,6 @@ class Boids(object):
         anim = animation.FuncAnimation(figure, self.animate, frames=50, interval=50)
         plt.show()
 
-
     def animate(self, frame):
         self.update_boids(self.boids)
         self.scatter.set_offsets(list(zip(self.boids[0], self.boids[1])))

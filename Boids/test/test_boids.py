@@ -5,7 +5,7 @@ import yaml
 
 
 def test_bad_boids_regression():
-    regression_data = yaml.load(open(os.path.join(os.path.dirname(__file__), 'fixture.yml')))
+    regression_data = yaml.load(open(os.path.join(os.path.dirname(__file__), 'fixtures', 'fixture.yml')))
     boid_data = regression_data["before"]
     boids = Boids()
     boids.update_boids(boid_data)
