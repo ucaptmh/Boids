@@ -3,9 +3,9 @@ from Boids.boids import Boids
 import os
 __author__ = 'third'
 import yaml
-from copy import deepcopy
 
-boids=Boids()
+from copy import deepcopy
+boids = Boids()
 before = deepcopy(boids.boids)
 boids.update_boids(boids.boids)
 after = boids.boids
