@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 from matplotlib import animation
 import random
 
-size_flock = 50
+flock_size = 50
 min_x_position, max_x_position = -450, 50
 min_y_position, max_y_position = 300, 600
 min_x_velocity, max_x_velocity = 0, 10
@@ -21,31 +21,31 @@ frame_number, frame_interval = 50, 50
 
 class Boids(object):
     def __init__(self):
-        boids_x = [random.uniform(min_x_position, max_x_position) for x in range(size_flock)]
-        boids_y = [random.uniform(min_y_position, max_y_position) for x in range(size_flock)]
-        boid_x_velocities = [random.uniform(min_x_velocity, max_x_velocity) for x in range(size_flock)]
-        boid_y_velocities = [random.uniform(min_y_velocity, max_y_velocity) for x in range(size_flock)]
+        boids_x = [random.uniform(min_x_position, max_x_position) for x in range(flock_size)]
+        boids_y = [random.uniform(min_y_position, max_y_position) for x in range(flock_size)]
+        boid_x_velocities = [random.uniform(min_x_velocity, max_x_velocity) for x in range(flock_size)]
+        boid_y_velocities = [random.uniform(min_y_velocity, max_y_velocity) for x in range(flock_size)]
         self.boids = (boids_x, boids_y, boid_x_velocities, boid_y_velocities)
 
     def update_boids(self, boids):
         xs, ys, xvs, yvs = boids
         # Fly towards the middle
-        for i in range(len(xs)):
-            for j in range(len(xs)):
-                xvs[i] += (xs[j] - xs[i]) * attraction_strength / len(xs)
-                yvs[i] += (ys[j] - ys[i]) * attraction_strength / len(xs)
-        # Fly away from nearby boids
+        for i in range(flock_size):
+            for j in range(flock_size):
+                xvs[i] += (xs[j] - xs[i]) * attraction_strength / flock_size
+                yvs[i] += (ys[j] - ys[i]) * attraction_strength / flock_size
+                # Fly away from nearby boids
                 if (xs[j] - xs[i]) ** 2 + (ys[j] - ys[i]) ** 2 < separation_distance_squared:
                     xvs[i] = xvs[i] + (xs[i] - xs[j])
                     yvs[i] = yvs[i] + (ys[i] - ys[j])
-        # Try to match speed with nearby boids
+                    # Try to match speed with nearby boids
                 if (xs[j] - xs[i]) ** 2 + (ys[j] - ys[i]) ** 2 < nearby_distance_squared:
-                    xvs[i] += (xvs[j] - xvs[i]) * velocity_matching_strength / len(xs)
-                    yvs[i] += (yvs[j] - yvs[i]) * velocity_matching_strength / len(xs)
+                    xvs[i] += (xvs[j] - xvs[i]) * velocity_matching_strength / flock_size
+                    yvs[i] += (yvs[j] - yvs[i]) * velocity_matching_strength / flock_size
         # Move according to velocities
-        for i in range(len(xs)):
-            xs[i] = xs[i] + xvs[i]
-            ys[i] = ys[i] + yvs[i]
+        for i in range(flock_size):
+            xs[i] += xvs[i]
+            ys[i] += yvs[i]
 
     def simulate(self, show=True):
         figure = plt.figure()
