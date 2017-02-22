@@ -10,9 +10,13 @@ min_x_velocity, max_x_velocity = 0, 10
 min_y_velocity, max_y_velocity = -20, 20
 
 attraction_strength = 0.01  # Attraction strength to middle of flock
-separation_distance_squared = 100  # Minimum distance squared between boids before they repel
+separation_distance_squared = 100  # Minimum distance squared between boids before they fly apart
 velocity_matching_strength = 0.125
 nearby_distance_squared = 10000  # Distance squared within which boids will try to match velocities
+
+axes_min, axes_max = -500, 1500
+
+frame_number, frame_interval = 50, 50
 
 
 class Boids(object):
@@ -29,18 +33,12 @@ class Boids(object):
         for i in range(len(xs)):
             for j in range(len(xs)):
                 xvs[i] += (xs[j] - xs[i]) * attraction_strength / len(xs)
-        for i in range(len(xs)):
-            for j in range(len(xs)):
                 yvs[i] += (ys[j] - ys[i]) * attraction_strength / len(xs)
         # Fly away from nearby boids
-        for i in range(len(xs)):
-            for j in range(len(xs)):
                 if (xs[j] - xs[i]) ** 2 + (ys[j] - ys[i]) ** 2 < separation_distance_squared:
                     xvs[i] = xvs[i] + (xs[i] - xs[j])
                     yvs[i] = yvs[i] + (ys[i] - ys[j])
         # Try to match speed with nearby boids
-        for i in range(len(xs)):
-            for j in range(len(xs)):
                 if (xs[j] - xs[i]) ** 2 + (ys[j] - ys[i]) ** 2 < nearby_distance_squared:
                     xvs[i] += (xvs[j] - xvs[i]) * velocity_matching_strength / len(xs)
                     yvs[i] += (yvs[j] - yvs[i]) * velocity_matching_strength / len(xs)
@@ -49,12 +47,13 @@ class Boids(object):
             xs[i] = xs[i] + xvs[i]
             ys[i] = ys[i] + yvs[i]
 
-    def simulate(self):
+    def simulate(self, show=True):
         figure = plt.figure()
-        axes = plt.axes(xlim=(-500, 1500), ylim=(-500, 1500))
+        axes = plt.axes(xlim=(axes_min, axes_max), ylim=(axes_min, axes_max))
         self.scatter = axes.scatter(self.boids[0], self.boids[1])
-        anim = animation.FuncAnimation(figure, self.animate, frames=50, interval=50)
-        plt.show()
+        anim = animation.FuncAnimation(figure, self.animate, frames=frame_number, interval=frame_interval)
+        if show:
+            plt.show()
 
 
     def animate(self, frame):
