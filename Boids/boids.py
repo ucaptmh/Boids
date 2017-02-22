@@ -2,6 +2,7 @@ __author__ = 'third'
 from matplotlib import pyplot as plt
 from matplotlib import animation
 import random
+import numpy as np
 
 flock_size = 50
 min_x_position, max_x_position = -450, 50
@@ -21,10 +22,10 @@ frame_number, frame_interval = 50, 50
 
 class Boids(object):
     def __init__(self):
-        boids_x = [random.uniform(min_x_position, max_x_position) for x in range(flock_size)]
-        boids_y = [random.uniform(min_y_position, max_y_position) for x in range(flock_size)]
-        boid_x_velocities = [random.uniform(min_x_velocity, max_x_velocity) for x in range(flock_size)]
-        boid_y_velocities = [random.uniform(min_y_velocity, max_y_velocity) for x in range(flock_size)]
+        boids_x = np.array([random.uniform(min_x_position, max_x_position) for x in range(flock_size)])
+        boids_y = np.array([random.uniform(min_y_position, max_y_position) for x in range(flock_size)])
+        boid_x_velocities = np.array([random.uniform(min_x_velocity, max_x_velocity) for x in range(flock_size)])
+        boid_y_velocities = np.array([random.uniform(min_y_velocity, max_y_velocity) for x in range(flock_size)])
         self.boids = (boids_x, boids_y, boid_x_velocities, boid_y_velocities)
 
     def update_boids(self, boids):
