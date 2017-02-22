@@ -33,16 +33,21 @@ class Boids(object):
         # Fly towards the middle
         for i in range(flock_size):
             for j in range(flock_size):
-                x_velocity[i] += (x_position[j] - x_position[i]) * attraction_strength / flock_size
-                y_velocity[i] += (y_position[j] - y_position[i]) * attraction_strength / flock_size
+                x_position_difference = x_position[j] - x_position[i]
+                y_position_difference = y_position[j] - y_position[i]
+                x_velocity_difference = x_velocity[j] - x_velocity[i]
+                y_velocity_difference = y_velocity[j] - y_velocity[i]
+                
+                x_velocity[i] += x_position_difference * attraction_strength / flock_size
+                y_velocity[i] += y_position_difference * attraction_strength / flock_size
                 # Fly away from nearby boids
-                if (x_position[j] - x_position[i]) ** 2 + (y_position[j] - y_position[i]) ** 2 < separation_distance_squared:
+                if x_position_difference ** 2 + y_position_difference ** 2 < separation_distance_squared:
                     x_velocity[i] = x_velocity[i] + (x_position[i] - x_position[j])
                     y_velocity[i] = y_velocity[i] + (y_position[i] - y_position[j])
                     # Try to match speed with nearby boids
-                if (x_position[j] - x_position[i]) ** 2 + (y_position[j] - y_position[i]) ** 2 < nearby_distance_squared:
-                    x_velocity[i] += (x_velocity[j] - x_velocity[i]) * velocity_matching_strength / flock_size
-                    y_velocity[i] += (y_velocity[j] - y_velocity[i]) * velocity_matching_strength / flock_size
+                if x_position_difference ** 2 + y_position_difference ** 2 < nearby_distance_squared:
+                    x_velocity[i] += x_velocity_difference * velocity_matching_strength / flock_size
+                    y_velocity[i] += y_velocity_difference * velocity_matching_strength / flock_size
         # Move according to velocities
         for i in range(flock_size):
             x_position[i] += x_velocity[i]
