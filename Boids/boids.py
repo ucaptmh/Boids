@@ -29,24 +29,24 @@ class Boids(object):
         self.boids = (boids_x, boids_y, boid_x_velocities, boid_y_velocities)
 
     def update_boids(self, boids):
-        xs, ys, xvs, yvs = boids
+        x_position, y_position, x_velocity, y_velocity = boids
         # Fly towards the middle
         for i in range(flock_size):
             for j in range(flock_size):
-                xvs[i] += (xs[j] - xs[i]) * attraction_strength / flock_size
-                yvs[i] += (ys[j] - ys[i]) * attraction_strength / flock_size
+                x_velocity[i] += (x_position[j] - x_position[i]) * attraction_strength / flock_size
+                y_velocity[i] += (y_position[j] - y_position[i]) * attraction_strength / flock_size
                 # Fly away from nearby boids
-                if (xs[j] - xs[i]) ** 2 + (ys[j] - ys[i]) ** 2 < separation_distance_squared:
-                    xvs[i] = xvs[i] + (xs[i] - xs[j])
-                    yvs[i] = yvs[i] + (ys[i] - ys[j])
+                if (x_position[j] - x_position[i]) ** 2 + (y_position[j] - y_position[i]) ** 2 < separation_distance_squared:
+                    x_velocity[i] = x_velocity[i] + (x_position[i] - x_position[j])
+                    y_velocity[i] = y_velocity[i] + (y_position[i] - y_position[j])
                     # Try to match speed with nearby boids
-                if (xs[j] - xs[i]) ** 2 + (ys[j] - ys[i]) ** 2 < nearby_distance_squared:
-                    xvs[i] += (xvs[j] - xvs[i]) * velocity_matching_strength / flock_size
-                    yvs[i] += (yvs[j] - yvs[i]) * velocity_matching_strength / flock_size
+                if (x_position[j] - x_position[i]) ** 2 + (y_position[j] - y_position[i]) ** 2 < nearby_distance_squared:
+                    x_velocity[i] += (x_velocity[j] - x_velocity[i]) * velocity_matching_strength / flock_size
+                    y_velocity[i] += (y_velocity[j] - y_velocity[i]) * velocity_matching_strength / flock_size
         # Move according to velocities
         for i in range(flock_size):
-            xs[i] += xvs[i]
-            ys[i] += yvs[i]
+            x_position[i] += x_velocity[i]
+            y_position[i] += y_velocity[i]
 
     def simulate(self, show=True):
         figure = plt.figure()
