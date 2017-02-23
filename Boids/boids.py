@@ -1,7 +1,5 @@
-__author__ = 'third'
 from matplotlib import pyplot as plt
 from matplotlib import animation
-import random
 import numpy as np
 
 
@@ -25,38 +23,39 @@ frame_number, frame_interval = 50, 50
 
 
 class Boids(object):
-    def __init__(self, x_position, y_position, x_velocity, y_velocity):
-        self.x_position = x_position
-        self.y_position = y_position
-        self.x_velocity = x_velocity
-        self.y_velocity = y_velocity
-        self.boids = (self.x_position, self.y_position, self.x_velocity, self.y_velocity)
+    def __init__(self, positions, velocities):
+        self.positions = positions
+        self.velocities = velocities
+        self.boids = (self.positions, self.velocities)
 
 
-    def update_boids(self, boids):
-        x_position, y_position, x_velocity, y_velocity = boids
-        # Fly towards the middle
-        for i in range(flock_size):
-            for j in range(flock_size):
-                x_position_difference = x_position[j] - x_position[i]
-                y_position_difference = y_position[j] - y_position[i]
-                x_velocity_difference = x_velocity[j] - x_velocity[i]
-                y_velocity_difference = y_velocity[j] - y_velocity[i]
 
-                x_velocity[i] += x_position_difference * attraction_strength / flock_size
-                y_velocity[i] += y_position_difference * attraction_strength / flock_size
-                # Fly away from nearby boids
-                if x_position_difference ** 2 + y_position_difference ** 2 < separation_distance_squared:
-                    x_velocity[i] = x_velocity[i] + (x_position[i] - x_position[j])
-                    y_velocity[i] = y_velocity[i] + (y_position[i] - y_position[j])
-                    # Try to match speed with nearby boids
-                if x_position_difference ** 2 + y_position_difference ** 2 < nearby_distance_squared:
-                    x_velocity[i] += x_velocity_difference * velocity_matching_strength / flock_size
-                    y_velocity[i] += y_velocity_difference * velocity_matching_strength / flock_size
-        # Move according to velocities
-        for i in range(flock_size):
-            x_position[i] += x_velocity[i]
-            y_position[i] += y_velocity[i]
+    def update_boids(self, positions, velocities):
+        move_to_middle_strength = 0.01
+        middle = np.mean(positions, 1)
+        direction_to_middle = positions-middle[:,np.newaxis]
+        velocities -= direction_to_middle*move_to_middle_strength
+
+        separations = positions[:,np.newaxis,:] - positions[:,:,np.newaxis]
+        squared_displacements = separations*separations
+        square_distances = np.sum(squared_displacements, 0)
+        alert_distance = 100
+        far_away=square_distances > alert_distance
+        separations_if_close = np.copy(separations)
+        separations_if_close[0,:,:][far_away] =0
+        separations_if_close[1,:,:][far_away] =0
+        velocities += np.sum(separations_if_close,1)
+
+        velocity_differences = velocities[:,np.newaxis,:] - velocities[:,:,np.newaxis]
+        formation_flying_distance = 10000
+        formation_flying_strength = 0.125
+        very_far=square_distances > formation_flying_distance
+        velocity_differences_if_close = np.copy(velocity_differences)
+        velocity_differences_if_close[0,:,:][very_far] =0
+        velocity_differences_if_close[1,:,:][very_far] =0
+        velocities -= np.mean(velocity_differences_if_close, 1) * formation_flying_strength
+
+        positions += velocities
 
     def simulate(self, show=True):
         figure = plt.figure()
@@ -67,9 +66,9 @@ class Boids(object):
             plt.show()
 
 
-    def animate(self, frame):
-        self.update_boids(self.boids)
-        self.scatter.set_offsets(list(zip(self.boids[0], self.boids[1])))
+    def animate(self,frame):
+        self.update_boids(positions, velocities)
+        self.scatter.set_offsets(positions.transpose())
 
 
 def new_flock(count, lower_limits, upper_limits):
@@ -81,9 +80,5 @@ def new_flock(count, lower_limits, upper_limits):
 if __name__ == "__main__":
     positions=new_flock(flock_size, np.array([min_x_position,min_y_position]), np.array([max_x_position,max_y_position]))
     velocities=new_flock(flock_size, np.array([min_x_velocity,min_y_velocity]), np.array([max_x_velocity,max_y_velocity]))
-    boids_x = positions[0,:]
-    boids_y = positions[1,:]
-    boid_x_velocity = velocities[0,:]
-    boid_y_velocity = velocities[1,:]
-    boid = Boids(boids_x, boids_y, boid_x_velocity, boid_y_velocity)
+    boid = Boids(positions,velocities)
     boid.simulate()
