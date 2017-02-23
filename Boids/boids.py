@@ -72,10 +72,18 @@ class Boids(object):
         self.scatter.set_offsets(list(zip(self.boids[0], self.boids[1])))
 
 
+def new_flock(count, lower_limits, upper_limits):
+    width=upper_limits-lower_limits
+    return (lower_limits[:,np.newaxis] +
+         np.random.rand(2,count)*width[:,np.newaxis])
+
+
 if __name__ == "__main__":
-    boids_x = np.array([random.uniform(min_x_position, max_x_position) for x in range(flock_size)])
-    boids_y = np.array([random.uniform(min_y_position, max_y_position) for x in range(flock_size)])
-    boid_x_velocity = np.array([random.uniform(min_x_velocity, max_x_velocity) for x in range(flock_size)])
-    boid_y_velocity = np.array([random.uniform(min_y_velocity, max_y_velocity) for x in range(flock_size)])
+    positions=new_flock(flock_size, np.array([min_x_position,min_y_position]), np.array([max_x_position,max_y_position]))
+    velocities=new_flock(flock_size, np.array([min_x_velocity,min_y_velocity]), np.array([max_x_velocity,max_y_velocity]))
+    boids_x = positions[0,:]
+    boids_y = positions[1,:]
+    boid_x_velocity = velocities[0,:]
+    boid_y_velocity = velocities[1,:]
     boid = Boids(boids_x, boids_y, boid_x_velocity, boid_y_velocity)
     boid.simulate()
