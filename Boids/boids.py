@@ -5,9 +5,8 @@ import numpy as np
 
 
 class Boids(object):
-    def __init__(self, positions, velocities):
+    def __init__(self, flock, positions, velocities):
         self.flock = flock
-
         self.positions = positions
         self.velocities = velocities
         self.boids = (self.positions, self.velocities)
@@ -101,5 +100,5 @@ class Flock(object):
 
 if __name__ == "__main__":
     flock=Flock()
-    boid=Boids(flock.flock_positions(), flock.flock_velocities())
+    boid=Boids(flock, flock.flock_positions(), flock.flock_velocities())
     boid.simulate(show=True)
