@@ -3,25 +3,6 @@ from matplotlib import animation
 import numpy as np
 
 
-min_x_position, max_x_position = -450, 50
-min_y_position, max_y_position = 300, 600
-min_x_velocity, max_x_velocity = 0, 10
-min_y_velocity, max_y_velocity = -20, 20
-
-axes_min, axes_max = -500, 1500
-
-flock_size = 50
-attraction_strength = 0.01  # Attraction strength to middle of flock
-separation_distance_squared = 100  # Minimum distance squared between boids before they fly apart
-velocity_matching_strength = 0.125
-nearby_distance_squared = 10000  # Distance squared within which boids will try to match velocities
-
-
-
-frame_number, frame_interval = 50, 50
-
-
-
 class Boids(object):
     def __init__(self, positions, velocities):
         self.positions = positions
@@ -75,6 +56,23 @@ def new_flock(count, lower_limits, upper_limits):
     width=upper_limits-lower_limits
     return (lower_limits[:,np.newaxis] +
          np.random.rand(2,count)*width[:,np.newaxis])
+
+min_x_position, max_x_position = -450, 50
+min_y_position, max_y_position = 300, 600
+min_x_velocity, max_x_velocity = 0, 10
+min_y_velocity, max_y_velocity = -20, 20
+
+axes_min, axes_max = -500, 1500
+
+flock_size = 50
+attraction_strength = 0.01  # Attraction strength to middle of flock
+separation_distance_squared = 100  # Minimum distance squared between boids before they fly apart
+velocity_matching_strength = 0.125
+nearby_distance_squared = 10000  # Distance squared within which boids will try to match velocities
+
+
+
+frame_number, frame_interval = 50, 50
 
 
 if __name__ == "__main__":
