@@ -3,8 +3,9 @@ import yaml
 import numpy as np
 import os
 
+#Desired name of config file
 file_to_write_to = 'config.yaml'
-
+#Parameters that can be changed
 flock_size=50
 formation_flying_distance=100
 formation_flying_strength=0.125
