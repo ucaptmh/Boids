@@ -33,6 +33,7 @@ def test_boids_init():
     boid = Boids(flock, [1, 2, 3, 4], [3, 4, 5, 6])
     # check Boid reads from Flock, and the positions and velocities are read correctly
     np.testing.assert_equal(flock.flock_size, 2)
+    np.testing.assert_equal(flock.formation_flying_distance_sq,10000)
     np.testing.assert_equal(boid.positions, [1, 2, 3, 4])
     np.testing.assert_equal(boid.velocities, [3, 4, 5, 6])
 
