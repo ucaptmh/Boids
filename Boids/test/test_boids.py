@@ -4,6 +4,7 @@ import numpy as np
 from numpy.testing import assert_array_less
 import os
 import yaml
+from mock import patch
 
 def test_boids_regression():
     regression_data = yaml.load(open(os.path.join(os.path.dirname(__file__), 'fixtures', 'regression_fixture.yml')))

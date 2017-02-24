@@ -1,7 +1,8 @@
 __author__ = 'third'
 from Boids.flock import Flock
 import numpy as np
-from mock import Mock, patch
+from mock import patch
+
 def test_flock_init():
     flock = Flock(flock_size=2,
                   formation_flying_distance=100,

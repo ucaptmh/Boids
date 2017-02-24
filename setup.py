@@ -18,6 +18,6 @@ setup(
     author_email='thomas.hird.16@ucl.ac.uk',
     license='MIT',
     entry_points=dict(console_scripts=[
-        'boids = boids.__main__:process']),
+        'Boids = Boids.__main__:process']),
     install_requires = ['argparse', 'matplotlib', 'numpy']
 )
