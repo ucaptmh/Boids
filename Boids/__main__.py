@@ -13,7 +13,7 @@ def process():
         parser.add_argument('--file', type=str,
                             help='''Optional YAML file to load data from.
                             Replaces all other specified parameters.''')
-        parser.add_argument('--size', default=50, type=int,
+        parser.add_argument('--flock_size', default=50, type=int,
                             help='Number of boids in flock. Must be int.')
         parser.add_argument('--flying_distance', default=100, type=float,
                             help='Radius in which boids try and match speed.')
@@ -24,7 +24,7 @@ def process():
         parser.add_argument('--attraction_strength', default=0.01, type=float,
                             help='How strongly boids try and flock together.')
         arguments = parser.parse_args()
-
+        #Edit these in the config file
         axes_min=-500
         axes_max=1500
         lower_position_limit=np.array([-450, 300])
@@ -34,8 +34,10 @@ def process():
         frame_number=50,
         frame_interval=50
 
+
+
         configdata = {"from_file": arguments.file,
-                      "flock_size": arguments.size,
+                      "flock_size": arguments.flock_size,
                       "formation_flying_distance": arguments.flying_distance,
                       "formation_flying_strength": arguments.flying_strength,
                       "alert_distance": arguments.alert_distance,
