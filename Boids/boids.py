@@ -13,11 +13,12 @@ class Boids(object):
         self.boids = (self.positions, self.velocities)
 
     def update_boids(self):
+        #Attracted to middle of flock
         move_to_middle_strength = self.flock.attraction_strength
         middle = np.mean(self.positions, 1)
         direction_to_middle = self.positions - middle[:, np.newaxis]
         self.velocities -= direction_to_middle * move_to_middle_strength
-
+        #Change direction if too close
         separations = self.positions[:, np.newaxis, :] - self.positions[:, :, np.newaxis]
         squared_displacements = separations * separations
         square_distances = np.sum(squared_displacements, 0)
@@ -27,7 +28,7 @@ class Boids(object):
         separations_if_close[0, :, :][far_away] = 0
         separations_if_close[1, :, :][far_away] = 0
         self.velocities += np.sum(separations_if_close, 1)
-
+        #Similar velocity to neighbours
         velocity_differences = self.velocities[:, np.newaxis, :] - self.velocities[:, :, np.newaxis]
         formation_flying_distance = self.flock.formation_flying_distance_sq
         formation_flying_strength = self.flock.formation_flying_strength
@@ -52,8 +53,9 @@ class Boids(object):
     def animate(self,frame):
         self.update_boids()
         self.scatter.set_offsets(self.positions.transpose())
-
+"""
 if __name__ == "__main__":
     flock=Flock()
     boid=Boids(flock, flock.flock_positions(), flock.flock_velocities())
     boid.simulate(show=True)
+"""
