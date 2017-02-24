@@ -16,6 +16,7 @@ setup(
     keywords='simulation flocking boids',
     author='Thomas Hird',
     author_email='thomas.hird.16@ucl.ac.uk',
+    date = 'February 2017',
     license='MIT',
     entry_points=dict(console_scripts=[
         'Boids = Boids.__main__:process']),

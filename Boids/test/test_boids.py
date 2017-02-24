@@ -4,7 +4,7 @@ import numpy as np
 from numpy.testing import assert_array_less
 import os
 import yaml
-from mock import patch
+import unittest.mock as mock
 
 def test_boids_regression():
     regression_data = yaml.load(open(os.path.join(os.path.dirname(__file__), 'fixtures', 'regression_fixture.yml')))
@@ -48,3 +48,44 @@ def test_boids_update_boids():
     for after, before in zip((update_data["after"][0], update_data["after"][1]), boid_data):
         for after_value, before_value in zip(after, before):
             np.testing.assert_array_almost_equal(after_value, before_value)
+
+
+
+def test_animate():
+    flock = Flock(flock_size=2,
+                  formation_flying_distance=100,
+                  formation_flying_strength=0.125,
+                  alert_distance=10,
+                  attraction_strength=0.01,
+                  axes_min=-500,
+                  axes_max=1500,
+                  lower_position_limit=np.array([-450, 300]),
+                  upper_position_limit=np.array([50, 600]),
+                  lower_velocity_limit=np.array([0, -20]),
+                  upper_velocity_limit=np.array([10, 20]),
+                  frame_number=50,
+                  frame_interval=50)
+    boid = Boids(flock, [1, 2, 3, 4], [3, 4, 5, 6])
+    with mock.patch.object(boid,'animate') as mock_animate:
+            dummy=boid.animate(50)
+            mock_animate.assert_called_with(50)
+
+
+def test_simulate():
+    flock = Flock(flock_size=2,
+                  formation_flying_distance=100,
+                  formation_flying_strength=0.125,
+                  alert_distance=10,
+                  attraction_strength=0.01,
+                  axes_min=-500,
+                  axes_max=1500,
+                  lower_position_limit=np.array([-450, 300]),
+                  upper_position_limit=np.array([50, 600]),
+                  lower_velocity_limit=np.array([0, -20]),
+                  upper_velocity_limit=np.array([10, 20]),
+                  frame_number=50,
+                  frame_interval=50)
+    boid = Boids(flock, [1, 2, 3, 4], [3, 4, 5, 6])
+    with mock.patch.object(boid,'simulate') as mock_simulate:
+            dummy=boid.simulate("")
+            mock_simulate.assert_called_with("")
