@@ -10,7 +10,7 @@ setup(
     classifiers=[
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6.0',
     ],
     url='https://github.com/ucaptmh/Boids',
     keywords='simulation flocking boids',
@@ -19,5 +19,6 @@ setup(
     license='MIT',
     entry_points=dict(console_scripts=[
         'Boids = Boids.__main__:process']),
-    install_requires = ['argparse', 'matplotlib', 'numpy']
+    install_requires = ['argparse', 'matplotlib', 'numpy'],
+    include_package_data=True
 )

@@ -1,5 +1,5 @@
 # Boids
-This programme produces a rudimentary simulation of basic flocking behaviour modelled on the famous Boids program my Craig Reynolds.
+This programme produces a rudimentary simulation of basic flocking behaviour modelled on the famous Boids program by Craig Reynolds.
 
 ##Installation
 To install run the following code:

@@ -2,4 +2,4 @@ If you wish to refer to this software specifically please cite Thomas M Hird as 
 https://github.com/ucaptmh/Boids
 
 Else this software was written for a coursework exercise where much of the original code come from so please cite the course URL:
-https://github.com/UCL/rsd-engineeringcourse
+https://github.com/UCL/rsd-engineeringcourse from which much of the improved numpy implementation came from
