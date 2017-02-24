@@ -45,6 +45,7 @@ class Boids(object):
         self.scatter = axes.scatter(self.boids[0], self.boids[1])
         anim = animation.FuncAnimation(figure, self.animate, frames=self.flock.frame_number, interval=self.flock.frame_interval)
         if show:
+            plt.title('Boids')
             plt.show()
 
 
