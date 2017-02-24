@@ -1,4 +1,4 @@
 include README.md
 include docs/*.txt
-include docs/*.yaml
+include config.yaml
 include docs/*.yml

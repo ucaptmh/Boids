@@ -19,6 +19,6 @@ setup(
     license='MIT',
     entry_points=dict(console_scripts=[
         'Boids = Boids.__main__:process']),
-    install_requires = ['argparse', 'matplotlib', 'numpy'],
+    install_requires = ['argparse', 'matplotlib', 'numpy', 'pyyaml'],
     include_package_data=True
 )

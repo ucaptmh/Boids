@@ -27,5 +27,4 @@ Example: `Boids --flock_size 100 --attraction_strength 0.9`
 
 This would produce a simulation with 100 boids an attraction strength of 0.9 and the other parameters set to default.
 
-A python makeconfig file is provided, simply run this python script with desired parameters to create a config file to load into the `[--file FILE]` argument.
-
+A python makeconfig.py file is provided, simply run this python script with desired parameters to create a config file to load into the `[--file FILE]` argument. his allows further parameters to be changed, such as the size of initial position and velocity distributions.
